@@ -15,6 +15,20 @@ def read_idx(fileurl):
     return x_axis, index_val
 
 
+def rolling(data, func, r_window=5, r_shift=1):
+    # type: (pd.DataFrame, Any, int, int) -> list
+    row_len = len(data)
+    result = list()
+    i = -1
+    while i < row_len:
+        if i+r_window+r_shift == row_len:
+            break
+        df = data.iloc[i+r_shift:i+r_window+r_shift, :]
+        i += 1
+        result.append(func(df))
+    return result
+
+
 def read_stock(fileurl):
     # type: (str) -> pd.DataFrame
     f = open(fileurl)
@@ -23,15 +37,16 @@ def read_stock(fileurl):
     for line in f:
         line_val = line.split(',')
         flist.append(
-            [line_val[1], line_val[2], line_val[3], line_val[4], line_val[5], line_val[7]])
+            [line_val[1], line_val[0], line_val[2], line_val[3], line_val[4], line_val[5], line_val[7]])
     flist.reverse()
     flist = np.array(flist)
     ind = np.array(flist[:, 0], dtype=pd.Timestamp)
-    data = {'date': pd.Series(flist[:, 0], index=ind), 'open': pd.Series(flist[:, 1], index=ind),
-            'high': pd.Series(flist[:, 2], index=ind), 'low': pd.Series(flist[:, 3], index=ind),
-            'close': pd.Series(flist[:, 4], index=ind), 'vol': pd.Series(flist[:, 5], index=ind)
+    data = {'date': pd.Series(flist[:, 0], index=ind), 'symbol': pd.Series(flist[:, 1], index=ind),
+            'open': pd.Series(flist[:, 2], index=ind), 'high': pd.Series(flist[:, 3], index=ind),
+            'low': pd.Series(flist[:, 4], index=ind), 'close': pd.Series(flist[:, 5], index=ind),
+            'vol': pd.Series(flist[:, 6], index=ind)
             }
-    col = ['date', 'open', 'high', 'low', 'close', 'vol']
+    col = ['date', 'symbol', 'open', 'high', 'low', 'close', 'vol']
     stock_frame = pd.DataFrame(data, index=ind, columns=col)
     f.close()
     return stock_frame

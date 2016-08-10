@@ -2,9 +2,8 @@ import sys
 
 sys.path.append("../")
 
-print sys.path
+import hellostock.filehandler as fh
 
-import hellotf.hellotf as hf
+allsh = fh.read_stocks("/data/datacsv/sh")
 
-hf.testtf()
-
+print "A stocks number="+len(allsh)

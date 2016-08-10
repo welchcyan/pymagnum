@@ -14,17 +14,17 @@ import filehandler as fh
 # print v1.corr(v2), v1.corr(v2, method="kendall"), v1.corr(v2, method="spearman")
 
 
-df0 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600000.csv')
+# df0 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600000.csv')
 df1 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600004.csv')
-df2 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600005.csv')
-df3 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600006.csv')
+# df2 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600005.csv')
+# df3 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600006.csv')
 df4 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600007.csv')
 df5 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600008.csv')
 df6 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600009.csv')
-df7 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600010.csv')
+# df7 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600010.csv')
 df8 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600011.csv')
 df9 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600012.csv')
-df10 = [df0, df1,df2,df3,df4,df5,df6,df7,df8,df9]
+df10 = [df1, df4, df6, df8, df9]
 
 df = pd.DataFrame()
 index1 = df5['date'].tolist()
@@ -43,8 +43,9 @@ dfd = {
     'sh600012': df9 }
 
 
-df_corr = al.alpha26(dfd, index=index1, r_window=5, r_shift=1, r_rank=3)
-
+# df_corr = al.alpha26(dfd, index=index1, r_window=5, r_shift=1, r_rank=3)
+df_corr = al.alpha2(dfd, index=index1, r_window=6)
+# df_corr = al.projection(dfd,'vol')
 # for _ in index1:
 #     print df_corr[_]
 

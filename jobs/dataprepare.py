@@ -6,5 +6,5 @@ import hellostock.filehandler as fh
 
 allsh = fh.read_stocks("/data/datacsv/sh")
 
-print "A stocks number=%s", len(allsh)
+print "A stocks number = ", len(allsh)
 

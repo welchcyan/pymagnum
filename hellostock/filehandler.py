@@ -57,3 +57,20 @@ def read_stocks(dir_url):
     return _dfd
 
 
+def load_df(dir_url):
+    # type: (str) -> dict
+
+    """
+    Read all stock files under dir_url
+
+    :type dir_url: str
+    :rtype: object a dict contains key:symbol name, value:DataFrame
+    """
+    _dfd = dict()
+    for fpathe, dirs, fs in os.walk(dir_url):
+        for f in fs:
+            _dfd[f] = pd.read_csv(os.path.join(fpathe, f), parse_dates=True, index_col=0)
+
+    return _dfd
+
+

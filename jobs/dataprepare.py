@@ -1,10 +1,78 @@
 import sys
+import os
 
 sys.path.append("../")
 
 import hellostock.filehandler as fh
+from multiprocessing import Pool
+import pandas as pd
 
-allsh = fh.read_stocks("/data/datacsv/sh")
 
-print "A stocks number = ", len(allsh)
+allsh = dict()
+all_index = pd.DataFrame()
+all_transformed = dict()
 
+
+def load_data():
+    global allsh, all_index
+    # read all sh stocks into a dict
+    allsh = fh.read_stocks("/data/datacsv/sh")
+
+    print "A stocks number = ", len(allsh)
+
+    # find the max trade days to regularize the all dataset
+    maxdays = 0
+    tradedays = 0
+    tradesymbol = ""
+
+    for k in allsh:
+        tradedays = len(allsh[k])
+        if maxdays < tradedays:
+            maxdays = tradedays
+            tradesymbol = k
+
+    print tradesymbol, maxdays
+
+    # Find the A index date as the dataframe index
+    all_index = fh.read_stock("/data/datacsv/sh_idx/sh1A0001.csv").date
+
+
+def worker(unit, container):
+    """
+    Use interate to prepare the transformation
+
+    :type unit: pd.DataFrame
+    """
+    symbol = unit['symbol'][0]
+    print "Start to process symbol", symbol
+    all_shlist = list()
+    for da in all_index:
+        if da in unit['date']:
+            cell = unit[da:da]
+            all_shlist.append((cell.date[0], cell.symbol[0], cell.open[0], cell.high[0], cell.low[0], cell.close[0], cell.vol[0] ))
+        else:
+            all_shlist.append((da, symbol, 0.0, 0.0, 0.0, 0.0, 0.0))
+    col = ['date', 'symbol', 'open', 'high', 'low', 'close', 'vol']
+    resultdf = pd.DataFrame.from_records(all_shlist, index=all_index, columns=col)
+    resultdf.to_csv(os.path.join('/data/datacsv/sh_tran/', symbol), header=True, index=True, col=col, index_label='idx')
+    print "Symbol", symbol, "processed, result len=", len(resultdf)
+    container[symbol] = resultdf
+    return resultdf
+
+
+load_data()
+
+# multiprocess the whole sh stocks
+pool = Pool(processes=20)
+
+# prepare the transformed dict
+for j in allsh:
+    pool.apply_async(worker, (allsh[j], all_transformed, ))
+
+pool.close()
+pool.join()
+
+
+new_frame = pd.read_csv('/data/datacsv/sh_tran/SH900916', parse_dates=True, index_col=0)
+
+haha = fh.load_df('/data/datacsv/sh_tran/')

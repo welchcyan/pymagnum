@@ -57,11 +57,11 @@ def read_stocks(dir_url):
     return _dfd
 
 
-def load_df(dir_url):
+def load_dfs(dir_url):
     # type: (str) -> dict
 
     """
-    Read all stock files under dir_url
+    Load all transformed stock data persist by pd.to_csv
 
     :type dir_url: str
     :rtype: object a dict contains key:symbol name, value:DataFrame
@@ -73,4 +73,17 @@ def load_df(dir_url):
 
     return _dfd
 
+
+def load_df(file_url):
+    # type: (str) -> pd.DataFrame
+
+    """
+    Load single transformed stock data persist by pd.to_csv
+
+    :type file_url: str
+    :rtype: df: pd.DataFrame
+    """
+    df = pd.read_csv(file_url, parse_dates=True, index_col=0)
+
+    return df
 

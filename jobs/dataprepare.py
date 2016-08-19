@@ -1,5 +1,6 @@
 import sys
 import os
+import time
 
 sys.path.append("../")
 
@@ -16,7 +17,7 @@ all_transformed = dict()
 def load_data():
     global allsh, all_index
     # read all sh stocks into a dict
-    allsh = fh.read_stocks("/data/datacsv/sh")
+    allsh = fh.read_stocks("/data/datacsv/sh_orig")
 
     print "A stocks number = ", len(allsh)
 
@@ -44,7 +45,8 @@ def worker(unit, container):
     :type unit: pd.DataFrame
     """
     symbol = unit['symbol'][0]
-    print "Start to process symbol", symbol
+    print "Start to process symbol", symbol, ".................."
+    start = time.time()
     all_shlist = list()
     for da in all_index:
         if da in unit['date']:
@@ -55,24 +57,37 @@ def worker(unit, container):
     col = ['date', 'symbol', 'open', 'high', 'low', 'close', 'vol']
     resultdf = pd.DataFrame.from_records(all_shlist, index=all_index, columns=col)
     resultdf.to_csv(os.path.join('/data/datacsv/sh_tran/', symbol), header=True, index=True, col=col, index_label='idx')
-    print "Symbol", symbol, "processed, result len=", len(resultdf)
+    end = time.time()
+    print "Symbol", symbol, "processed, result len=", len(resultdf), " process time = ", end - start
     container[symbol] = resultdf
     return resultdf
 
 
+print "STEP 1 =============================================="
+print "Start to parsing original data"
+start = time.time()
 load_data()
+end  = time.time()
+print "Parsing original data end, time taken=", end - start
+print "STEP 1 =============================================="
 
+
+print "STEP 2 =============================================="
+print "Start to parsing original data"
 # multiprocess the whole sh stocks
 pool = Pool(processes=20)
 
 # prepare the transformed dict
+start = time.time()
 for j in allsh:
     pool.apply_async(worker, (allsh[j], all_transformed, ))
 
 pool.close()
 pool.join()
-
+end  = time.time()
+print "Parsing original data end, time taken=", end - start
+print "STEP 2 =============================================="
 
 new_frame = pd.read_csv('/data/datacsv/sh_tran/SH900916', parse_dates=True, index_col=0)
 
-haha = fh.load_df('/data/datacsv/sh_tran/')
+haha = fh.load_dfs('/data/datacsv/sh_tran/')

@@ -15,15 +15,15 @@ import filehandler as fh
 
 
 # df0 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600000.csv')
-df1 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600004.csv')
-# df2 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600005.csv')
-# df3 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600006.csv')
-df4 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600007.csv')
-df5 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600008.csv')
-df6 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600009.csv')
-# df7 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600010.csv')
-df8 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600011.csv')
-df9 = fh.read_stock('/Users/chenw13/Programs/quant/all_trading_data/stock_data/sh600012.csv')
+df1 = fh.read_stock('/Users/chenw13/Programs/quant/datacsv/sh/sh900904.csv')
+# df2 = fh.read_stock('/Users/chenw13/Programs/quant/datacsv/sh/sh600005.csv')
+# df3 = fh.read_stock('/Users/chenw13/Programs/quant/datacsv/sh/sh600006.csv')
+df4 = fh.read_stock('/Users/chenw13/Programs/quant/datacsv/sh/sh900905.csv')
+df5 = fh.read_stock('/Users/chenw13/Programs/quant/datacsv/sh/sh900908.csv')
+df6 = fh.read_stock('/Users/chenw13/Programs/quant/datacsv/sh/sh900909.csv')
+# df7 = fh.read_stock('/Users/chenw13/Programs/quant/datacsv/sh/sh600010.csv')
+df8 = fh.read_stock('/Users/chenw13/Programs/quant/datacsv/sh/sh900911.csv')
+df9 = fh.read_stock('/Users/chenw13/Programs/quant/datacsv/sh/sh900912.csv')
 df10 = [df1, df4, df6, df8, df9]
 
 df = pd.DataFrame()

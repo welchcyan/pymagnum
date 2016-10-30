@@ -17,7 +17,7 @@ all_transformed = dict()
 def load_data():
     global allsh, all_index
     # read all sh stocks into a dict
-    allsh = fh.read_stocks("/data/datacsv/sh_orig")
+    allsh = fh.read_stocks("/Users/chenw13/Programs/quant/datacsv/sh_orig")
 
     print "A stocks number = ", len(allsh)
 
@@ -35,7 +35,7 @@ def load_data():
     print tradesymbol, maxdays
 
     # Find the A index date as the dataframe index
-    all_index = fh.read_stock("/data/datacsv/sh_idx/sh1A0001.csv").date
+    all_index = fh.read_stock("/Users/chenw13/Programs/quant/datacsv/sh_idx/sh1A0001.csv").date
 
 
 def worker(unit, container):
@@ -51,12 +51,12 @@ def worker(unit, container):
     for da in all_index:
         if da in unit['date']:
             cell = unit[da:da]
-            all_shlist.append((cell.date[0], cell.symbol[0], cell.open[0], cell.high[0], cell.low[0], cell.close[0], cell.vol[0] ))
+            all_shlist.append((cell.date[0], cell.symbol[0], cell.open[0], cell.high[0], cell.low[0], cell.close[0], cell.vol[0]))
         else:
             all_shlist.append((da, symbol, 0.0, 0.0, 0.0, 0.0, 0.0))
     col = ['date', 'symbol', 'open', 'high', 'low', 'close', 'vol']
     resultdf = pd.DataFrame.from_records(all_shlist, index=all_index, columns=col)
-    resultdf.to_csv(os.path.join('/data/datacsv/sh_tran/', symbol), header=True, index=True, col=col, index_label='idx')
+    resultdf.to_csv(os.path.join('/Users/chenw13/Programs/quant/datacsv/sh_tran/', symbol), header=True, index=True, col=col, index_label='idx')
     end = time.time()
     print "Symbol", symbol, "processed, result len=", len(resultdf), " process time = ", end - start
     container[symbol] = resultdf
@@ -67,7 +67,7 @@ print "STEP 1 =============================================="
 print "Start to parsing original data"
 start = time.time()
 load_data()
-end  = time.time()
+end = time.time()
 print "Parsing original data end, time taken=", end - start
 print "STEP 1 =============================================="
 
@@ -84,10 +84,10 @@ for j in allsh:
 
 pool.close()
 pool.join()
-end  = time.time()
+end = time.time()
 print "Parsing original data end, time taken=", end - start
 print "STEP 2 =============================================="
 
-new_frame = pd.read_csv('/data/datacsv/sh_tran/SH900916', parse_dates=True, index_col=0)
+new_frame = pd.read_csv('/Users/chenw13/Programs/quant/datacsv/sh_tran/SH900916', parse_dates=True, index_col=0)
 
-haha = fh.load_dfs('/data/datacsv/sh_tran/')
+haha = fh.load_dfs('/Users/chenw13/Programs/quant/datacsv/sh_tran/')

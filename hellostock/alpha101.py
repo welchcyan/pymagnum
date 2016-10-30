@@ -152,20 +152,20 @@ def compare_vol_close(data, **kwargs):
     return resultdict
 
 
-def alpha_zhangtao(data, index=None, r_window=sys.maxint, r_shift=3, r_rank=10, threshold = 0.5):
+def alpha_zhangtao(data, index=None, r_window=sys.maxint, r_shift=3, r_rank=10, threshold=0.5):
     # type: (dict, list, int, int, int, int) -> dict
     """
     A simple rule to find potential stock universe
     The close price higher than the highest forever or the highest in r_window
     and at the same time its volume higher than last 3 days average volume
 
-    :return:
     :param data: The dict of dataframes {key=symbolID,value=dataframe}
     :param index: The data index
     :param r_window: The evaluation window, shoud be as long as possible, but also can be multiply of 1 year
     :param r_shift: The evaluate window for volume increase, default is 3 days
     :param r_rank: filter out the result, default is 10
-    :param r_vol_increase: the volume increasement, default is 50%
+    :param threshold:  the volume increasement, default is 50%
+
     """
     dfd = dict()
     for k, v in data.items():

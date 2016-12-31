@@ -193,6 +193,11 @@ def alpha_zhangtao(data, index=None, r_window=sys.maxint, r_shift=3, r_rank=10, 
     return stock_frame
 
 
+def alpha_zhangtao2(data, index=None, r_window=30, r_shit=3, r_rank=10, threashold=0.5 ):
+
+    pass
+
+
 def alpha2(data, index=None, r_window=6, r_shift=1, r1_rank=2, r2_rank=6):
     # type: (dict, list, int, int, int) -> dict()
 

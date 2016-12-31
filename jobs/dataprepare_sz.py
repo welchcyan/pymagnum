@@ -17,7 +17,7 @@ all_transformed = dict()
 def load_data():
     global allsh, all_index
     # read all sh stocks into a dict
-    allsh = fh.read_stocks("/Users/chenw13/Programs/quant/datacsv/sh_orig")
+    allsh = fh.read_stocks("/Users/chenw13/Programs/quant/datacsv/sz_orig")
 
     print "A stocks number = ", len(allsh)
 
@@ -35,36 +35,8 @@ def load_data():
     print tradesymbol, maxdays
 
     # Find the A index date as the dataframe index
-    all_index = fh.read_stock("/Users/chenw13/Programs/quant/datacsv/sh_idx/SH1A0001.csv").date
+    all_index = fh.read_stock("/Users/chenw13/Programs/quant/datacsv/sz_idx/SZ000001.csv").date
 
-
-def load_data( data_path, idx_location ):
-    """
-
-    :type data_path: str
-    :type idx_location: str
-    """
-    global allsh, all_index
-    # read all sh stocks into a dict
-    allsh = fh.read_stocks(data_path)
-
-    print "A stocks number = ", len(allsh)
-
-    # find the max trade days to regularize the all dataset
-    maxdays = 0
-    tradedays = 0
-    tradesymbol = ""
-
-    for k in allsh:
-        tradedays = len(allsh[k])
-        if maxdays < tradedays:
-            maxdays = tradedays
-            tradesymbol = k
-
-    print tradesymbol, maxdays
-
-    # Find the A index date as the dataframe index
-    all_index = fh.read_stock(idx_location).date
 
 def worker(unit, container):
     """
@@ -84,7 +56,7 @@ def worker(unit, container):
             all_shlist.append((da, symbol, 0.0, 0.0, 0.0, 0.0, 0.0))
     col = ['date', 'symbol', 'open', 'high', 'low', 'close', 'vol']
     resultdf = pd.DataFrame.from_records(all_shlist, index=all_index, columns=col)
-    resultdf.to_csv(os.path.join('/Users/chenw13/Programs/quant/datacsv/sh_tran/', symbol), header=True, index=True, col=col, index_label='idx')
+    resultdf.to_csv(os.path.join('/Users/chenw13/Programs/quant/datacsv/sz_tran/', symbol), header=True, index=True, col=col, index_label='idx')
     end = time.time()
     print "Symbol", symbol, "processed, result len=", len(resultdf), " process time = ", end - start
     container[symbol] = resultdf
@@ -118,4 +90,4 @@ print "STEP 2 =============================================="
 
 # new_frame = pd.read_csv('/Users/chenw13/Programs/quant/datacsv/sh_tran/SH900916', parse_dates=True, index_col=0)
 
-haha = fh.load_dfs('/Users/chenw13/Programs/quant/datacsv/sh_tran/')
+# haha = fh.load_dfs('/Users/chenw13/Programs/quant/datacsv/sz_tran/')

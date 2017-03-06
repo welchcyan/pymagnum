@@ -1,4 +1,3 @@
-import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
@@ -32,4 +31,5 @@ for m,n in matches:
 # Draw first 10 matches.
 img3 = cv2.drawMatchesKnn(img,kp1,img2,kp2,good, img, flags=2)
 
-plt.imshow(img3),plt.show()
+plt.imshow(img3)
+plt.show()

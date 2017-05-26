@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 
 # read image
 img = cv2.imread('/Users/chenw13/Pictures/cxyxt/pic140.JPG',cv2.IMREAD_COLOR)
-img2 = cv2.imread('/Users/chenw13/Pictures/cxyxt/pic146.JPG',cv2.IMREAD_COLOR)
+img2 = cv2.imread('/Users/chenw13/Pictures/cxyxt/pic136.JPG',cv2.IMREAD_COLOR)
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 gray2 = cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY)
 
